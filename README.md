@@ -17,6 +17,19 @@ make
 do build and install electron application on host system
 
 ```bash
-make install
+sudo make install
 ```
 
+### Uninstall
+
+delete all application files
+
+```bash
+sudo make uninstall
+```
+
+some stored by electron app data like cache, sessions & cookies should be deleted manualy
+
+```bash
+rm -rf ~/.config/notion
+```
