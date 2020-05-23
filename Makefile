@@ -1,5 +1,12 @@
 CURDIR=$(shell pwd)
 
+.PHONY: check-root
+check-root:
+ifneq ($(shell id -u), 0)
+	echo "Root privileges is required"
+	exit 1
+endif
+
 nativefier/Dockerfile:
 	git clone https://github.com/jiahaog/nativefier
 
@@ -15,4 +22,7 @@ notion-linux-x64: nativefier
 		--name notion -p linux -a x64 https://notion.so/ /target/
 	sed -i 's/-nativefier-[a-zA-Z0-9]\+//g' $(CURDIR)/notion-linux-x64/resources/app/package.json
 
-all: notion-linux-x64
+install: check-root notion-linux-x64
+	cp -r $(CURDIR)/notion-linux-x64 /usr/share/notion
+	cp $(CURDIR)/notion.desktop /usr/share/applications/notion.desktop
+	ln -s /usr/share/notion/notion /usr/bin/notion

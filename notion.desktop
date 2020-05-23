@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Notion
+Comment=Notion Linux Desktop app
+Exec=/usr/bin/notion
+Terminal=false
+Categories=Application;Utility;TextEditor;
+Type=Application
+Icon=/usr/share/notion/resources/app/icon.png
