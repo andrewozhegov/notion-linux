@@ -18,6 +18,7 @@ notion-linux-x64: nativefier
 		-v $(CURDIR):/src \
 		-v $(CURDIR):/target \
 		local/nativefier \
+		--inject /src/scrollbar.css \
 		--icon /src/icon.png \
 		--name notion -p linux -a x64 https://notion.so/ /target/
 	sed -i 's/-nativefier-[a-zA-Z0-9]\+//g' $(CURDIR)/notion-linux-x64/resources/app/package.json

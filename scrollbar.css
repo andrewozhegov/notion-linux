@@ -1,0 +1,17 @@
+::-webkit-scrollbar
+{
+	width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 5px;
+	background-color: rgba(25,25,25,.4);
+    transition: all .3s ease-in;
+}
+
+*:hover::-webkit-scrollbar-thumb
+{
+	background-color: rgba(25,25,25,0.7);
+}
