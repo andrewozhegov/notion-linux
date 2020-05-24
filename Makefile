@@ -38,6 +38,9 @@ notion-linux-$(ARCH): nativefier
         -e 's/"version":"1.0.0"/"version":"$(VERSION)"/g' \
 		$(CURDIR)/notion-linux-$(ARCH)/resources/app/package.json
 
+notion-linux-$(ARCH).tar.gz: notion-linux-$(ARCH)
+	tar -zcf notion_$(VERSION).tar.gz notion-linux-$(ARCH)
+
 install: check-root uninstall notion-linux-$(ARCH)
 	cp -r $(CURDIR)/notion-linux-$(ARCH) /usr/share/notion
 	cp -u $(CURDIR)/notion.desktop /usr/share/applications/notion.desktop
