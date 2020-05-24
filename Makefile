@@ -1,6 +1,6 @@
-CURDIR = $(shell pwd)
+CURDIR := $(shell pwd)
 ARCH ?= x64
-
+VERSION ?= 0.1
 
 .PHONY: check-root
 check-root:
@@ -25,7 +25,7 @@ nativefier/Dockerfile:
 nativefier: nativefier/Dockerfile
 	docker build -t local/nativefier nativefier
 
-notion-linux-x64: nativefier
+notion-linux-$(ARCH): nativefier
 	docker run \
 		-v $(CURDIR):/src \
 		-v $(CURDIR):/target \
@@ -33,7 +33,10 @@ notion-linux-x64: nativefier
 		--inject /src/scrollbar.css \
 		--icon /src/icon.png \
 		--name notion -p linux -a $(ARCH) https://notion.so/ /target/
-	sed -i 's/-nativefier-[a-zA-Z0-9]\+//g' $(CURDIR)/notion-linux-$(ARCH)/resources/app/package.json
+	sed -i \
+		-e 's/-nativefier-[a-zA-Z0-9]\+//g' \
+        -e 's/"version":"1.0.0"/"version":"$(VERSION)"/g' \
+		$(CURDIR)/notion-linux-$(ARCH)/resources/app/package.json
 
 install: check-root uninstall notion-linux-$(ARCH)
 	cp -r $(CURDIR)/notion-linux-$(ARCH) /usr/share/notion

@@ -28,7 +28,7 @@ delete all application files
 sudo make uninstall
 ```
 
-some stored by electron app data like cache, sessions & cookies should be deleted manualy
+some stored by electron app data like cache, sessions & cookies should be deleted manually
 
 ```bash
 rm -rf ~/.config/notion
