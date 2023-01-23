@@ -1,6 +1,8 @@
 CURDIR := $(shell pwd)
 ARCH ?= x64
-VERSION ?= 0.1
+VERSION ?= 0.2
+REPO_NAME := nativefier/nativefier
+CONTAINER_NAME := notion_builder
 
 .PHONY: check-root
 check-root:
@@ -12,6 +14,8 @@ endif
 .PHONY: clean
 clean:
 	rm -rf $(CURDIR)/nativefier $(CURDIR)/notion-linux-$(ARCH)
+	docker rmi -f $(REPO_NAME)
+	docker rm $(CONTAINER_NAME)
 
 .PHONY: uninstall
 uninstall:
@@ -19,17 +23,12 @@ uninstall:
 		/usr/share/applications/notion.desktop \
 		/usr/bin/notion
 
-nativefier/Dockerfile:
-	git clone https://github.com/jiahaog/nativefier
-
-nativefier: nativefier/Dockerfile
-	docker build -t local/nativefier nativefier
-
-notion-linux-$(ARCH): nativefier
+notion-linux-$(ARCH):
 	docker run \
 		-v $(CURDIR):/src \
 		-v $(CURDIR):/target \
-		local/nativefier \
+		--name $(CONTAINER_NAME) \
+		$(REPO_NAME) \
 		--inject /src/scrollbar.css \
 		--icon /src/icon.png \
 		--name notion -p linux -a $(ARCH) https://notion.so/ /target/
